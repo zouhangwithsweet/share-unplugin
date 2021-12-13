@@ -1,5 +1,7 @@
 # Welcome to [Slidev](https://github.com/slidevjs/slidev)!
 
+分享
+
 To start the slide show:
 
 - `npm install`
