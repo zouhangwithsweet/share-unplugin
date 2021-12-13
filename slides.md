@@ -184,17 +184,59 @@ import 'mand-mobile-next/dist/es/button/style.js'
 # 技术选型
 做好技术选型事半功倍
 
-- 构建工具：[tsup](https://github.com/egoist/tsup)
+<div grid="~ cols-2 gap-2" m="-t-2">
+
+  <v-click>
+
+  - 构建工具：[tsup](https://github.com/egoist/tsup) 🚁
+    
+    <span class="text-xs">基于 esbuild 的极速构建工具 </span>
+
+  ```bash
+  # dev
+  tsup src/index.ts --watch
+
+  # build
+  tsup src/index.ts --format esm,cjs,iife
+  ```
+
+  </v-click>
+
+  <v-click>
   
-  <span class="text-xs">基于 esbuild 的极速构建工具 🚁</span>
+  - 词法解析器：[es-module-lexer](https://github.com/guybedford/es-module-lexer) ⚡️
 
-- 词法解析器：[es-module-lexer](https://github.com/guybedford/es-module-lexer)
+    <span class="text-xs">我比 babel 快 100 倍 </span>
 
-  <span class="text-xs">我比 babel 快 100 倍 ⚡️ </span>
+  ```ts
+  import { init, parse } from 'es-module-lexer'
 
-- 字符串处理：[magic-string](https://github.com/Rich-Harris/magic-string)
+  (async () => {
+    await init
+    const [imports, exports] = parse('export var p = 5')
+    exports[0] === 'p'
+  })();
+  ```
+  
+  </v-click>
 
-  <span class="text-xs"> 哎，就是玩儿字符串 😁</span>
+  <v-click>
+  
+  - 字符串处理：[magic-string](https://github.com/Rich-Harris/magic-string) 😁
+
+    <span class="text-xs"> 哎，就是玩儿字符串 </span>
+
+  ```ts
+  import MagicString from 'magic-string'
+  const s = new MagicString( 'problems = 99' )
+
+  s.overwrite( 0, 8, 'answer' )
+  s.toString() // 'answer = 99'
+  ```
+  
+  </v-click>
+
+</div>
 
 ---
 class: code-pre
@@ -322,6 +364,136 @@ class: code-pre
   opacity: 0;
 }
 </style>
+
+---
+
+# 技巧
+
+见得多了，就会非常熟悉西方的那一套理论 🤓
+
+构建插件往往在本地 node 中执行，为了执行效率我们可以考虑一下编程技巧
+
+<div grid="~ cols-3 gap-2" m="-t-2">
+  <v-click>
+
+  - 最小化函数对象内存占用
+
+  <p v-show="clicks === 1">
+
+  ```ts
+  // bad
+  function trim(string) {
+    function trimStart(string) {
+      return string.replace(/^s+/g, "");
+    }
+
+    function trimEnd(string) {
+      return string.replace(/s+$/g, "");
+    }
+
+    return trimEnd(trimStart(string))
+  }
+  ```
+
+  </p>
+
+  <p v-show="clicks !== 1"/>
+
+  <p v-show="clicks === 1">
+  
+  ```ts
+  // good
+  function trimStart(string) {
+    return string.replace(/^s+/g, "");
+  }
+
+  function trimEnd(string) {
+    return string.replace(/s+$/g, "");
+  }
+
+  function trim(string) {
+    return trimEnd(trimStart(string))
+  }
+  ```
+
+  </p>
+
+  <p v-show="clicks !== 1"/>
+
+  </v-click>
+
+  <v-click>
+
+  - 最小化对象大小
+
+  <p v-show="clicks === 2">
+  
+  ```ts
+  // bad
+  const a = {}
+  ```
+
+  </p>
+  <p v-show="clicks !== 2"/>
+  <p v-show="clicks === 2">
+  
+  ```ts
+  // good
+  const b = Object.create(null)
+  ```
+  
+  </p>
+  <p v-show="clicks !== 2"/>
+
+  </v-click>
+
+  <v-click>
+  
+  - 使用空函数并”懒实现”可选功能
+
+  <p v-show="clicks === 3">
+  
+  ```ts
+  // bad
+  class Promise {
+    constructor(executor) {
+        this._promiseCreatedHook();
+    }
+    _promiseCreatedHook() {
+      // do something
+    }
+  }
+  ```
+
+  </p>
+  <p v-show="clicks !== 3"/>
+  <p v-show="clicks === 3">
+  
+  ```ts
+  // good
+  class Promise {
+    constructor(executor) {
+        this._promiseCreatedHook();
+    }
+    // Just an empty no-op method.
+    _promiseCreatedHook() {}
+  }
+
+  function enableMonitoringFeature() {
+    Promise.prototype._promiseCreatedHook = function() {
+        // Actual implementation here
+    }
+  }
+  ```
+  
+  </p>
+  <p v-show="clicks !== 3"/>
+  </v-click>
+</div>
+
+<script setup lang="ts">
+import { clicks } from '@slidev/client/logic/nav'
+</script>
 
 ---
 
