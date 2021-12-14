@@ -13,6 +13,7 @@
   "name": "use-unplugin",
   "devDependencies": {
     "@iconify-json/file-icons": "^1.0.1",
-    "@iconify-json/vs": "^1.0.1"
+    "@iconify-json/vs": "^1.0.1",
+    "@iconify-json/vscode-icons": "^1.0.3"
   }
 }

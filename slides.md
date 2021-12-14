@@ -5,10 +5,10 @@ class: text-center
 highlighter: shiki
 lineNumbers: false
 info: |
-  ## Slidev Starter Template
-  Presentation slides for developers.
-
-  Learn more at [Sli.dev](https://sli.dev)
+  <img class="m-auto" style="width: 88px; height: 88px; display: block; border-radius: 100%" src="https://avatars.githubusercontent.com/u/21095710?v=4" />
+  <span class="block my-0 font-semibold">zouhang</span>
+  <span class="block font-medium">creator of mand-mobile-next</span>
+  Here is my <a href="https://github.com/zouhangwithsweet" target="_blank">github</a>
 drawings:
   persist: false
 title: unplugin
@@ -16,7 +16,9 @@ title: unplugin
 
 # 使用 unplugin 开发构建插件
 
-vite / webpack / rollup
+<span />
+<span class="opacity-50">vite<vscode-icons:file-type-vite /> / webpack<vscode-icons:file-type-webpack /> / rollup<vscode-icons:file-type-rollup /></span>
+
 
 <div class="pt-12">
   <span @click="$slidev.nav.next" class="px-2 py-1 rounded cursor-pointer" hover="bg-white bg-opacity-10">
@@ -30,7 +32,7 @@ The last comment block of each slide will be treated as slide notes. It will be 
 
 ---
 
-# What is unplugin?
+# What is **unplugin**?
 
 用于开发构建工具插件的聚合系统
 
@@ -371,7 +373,7 @@ class: code-pre
 
 见得多了，就会非常熟悉西方的那一套理论 🤓
 
-构建插件往往在本地 node 中执行，为了执行效率我们可以考虑一下编程技巧
+构建插件往往在本地 node 中执行，为了执行性能我们可以考虑一些编程技巧
 
 <div grid="~ cols-3 gap-2" m="-t-2">
   <v-click>
@@ -502,6 +504,7 @@ import { clicks } from '@slidev/client/logic/nav'
 
 - [unbuild](https://github.com/unjs/unbuild)
 - [consola](https://github.com/unjs/consola)
+- [如何开发 esbuild 插件](https://esbuild.github.io/plugins/)
 
 <span
   style="color: #4EC5D4;"
